@@ -3,19 +3,22 @@ import {
   Controller,
   Get,
   HttpCode,
-  Request,
   Post,
   Put,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { AuthGuard } from 'src/middlewares/auth.middleware';
+import { UserEmail, UserId } from 'src/decorators/user.decorator';
+import { ResponseDTO } from 'src/dtos/response';
+import { AuthGuard } from 'src/middlewares/auth.guard';
 import {
   CreateUserDto,
-  LoginResponse,
   LoginUserDto,
   RefreshTokenDto,
-} from './dtos/users.dto';
+  UpdateUserDto,
+  UpdateUserPasswordDto,
+} from './dtos/users-request.dto';
+import { LoginResponse } from './dtos/users-response.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
@@ -25,7 +28,9 @@ export class UsersController {
 
   @Post('/register')
   @HttpCode(201)
-  async register(@Body() createUserDto: CreateUserDto) {
+  async register(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<ResponseDTO | undefined> {
     return this.usersService.register(createUserDto);
   }
 
@@ -36,6 +41,16 @@ export class UsersController {
     return this.usersService.login(loginUserDto);
   }
 
+  // Todo
+  // @UseGuards(AuthGuard)
+  // @ApiBearerAuth('JWT-auth')
+  // @Post('/activate')
+  // async activateUser(): Promise<User> {
+  //   return null;
+  // }
+
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @Post('/refresh')
   async refresh(
     @Body() refreshTokenDto: RefreshTokenDto,
@@ -44,30 +59,29 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
-  @Get('/me')
   @ApiBearerAuth('JWT-auth')
-  async getMe(@Request() req): Promise<User> {
-    return this.usersService.getMe(req.user.id);
+  @Get('/me')
+  async getMe(@UserId() userId: string): Promise<User> {
+    return this.usersService.getMe(userId);
   }
 
-  // Todo
-  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @Put('/edit')
-  async updateUser(): Promise<User> {
-    return null;
+  async updateUser(
+    @UserId() userId: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<LoginResponse | undefined> {
+    return this.usersService.updateUser(userId, updateUserDto);
   }
 
-  // Todo
-  // @UseGuards(AuthGuard('jwt'))
-  @Post('/activate')
-  async activateUser(): Promise<User> {
-    return null;
-  }
-
-  // Todo
-  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth('JWT-auth')
   @Put('/update-password')
-  async updatePassword(): Promise<User> {
-    return null;
+  async updatePassword(
+    @UserEmail() email: string,
+    @Body() updatePasswordDto: UpdateUserPasswordDto,
+  ): Promise<ResponseDTO | undefined> {
+    return this.usersService.updatePassword(email, updatePasswordDto);
   }
 }

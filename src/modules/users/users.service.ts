@@ -1,11 +1,17 @@
 import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import { Op } from 'sequelize';
-import { CreateUserDto, LoginResponse, LoginUserDto } from './dtos/users.dto';
+import {
+  CreateUserDto,
+  LoginUserDto,
+  UpdateUserDto,
+  UpdateUserPasswordDto,
+} from './dtos/users-request.dto';
 import { User } from './user.entity';
 import { STATUS, USERS_REPOSITORY } from 'src/constants/users';
 import MESSAGES from 'src/constants/messages';
 import { UsersUtils } from 'src/utils/users.util';
 import { getEnv } from 'src/config/env';
+import { LoginResponse } from './dtos/users-response.dto';
 
 @Injectable()
 export class UsersService {
@@ -124,6 +130,20 @@ export class UsersService {
   async getUsers(): Promise<User[]> {
     return this.usersRepository.findAll<User>({
       where: { status: STATUS.ACTIVE },
+      attributes: [
+        'id',
+        'firstName',
+        'lastName',
+        'userName',
+        'email',
+        'role',
+        'type',
+        'status',
+        'bio',
+        'loginAt',
+        'createdAt',
+        'updatedAt',
+      ],
       raw: true,
     });
   }
@@ -155,11 +175,82 @@ export class UsersService {
   async getMe(userId): Promise<User | undefined> {
     const user = await this.usersRepository.findOne({
       where: { id: userId, status: STATUS.ACTIVE },
+      attributes: [
+        'id',
+        'firstName',
+        'lastName',
+        'userName',
+        'email',
+        'role',
+        'type',
+        'status',
+        'bio',
+        'loginAt',
+        'createdAt',
+        'updatedAt',
+      ],
       raw: true,
     });
     if (!user) {
       throw new BadRequestException(MESSAGES.USER_NOT_FOUND);
     }
     return user;
+  }
+
+  async updateUser(
+    userId: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<LoginResponse> {
+    await this.getMe(userId);
+
+    await this.usersRepository.update(
+      { ...updateUserDto },
+      { where: { id: userId } },
+    );
+
+    return {
+      success: true,
+      message: 'Success',
+      user: await this.getMe(userId),
+    };
+  }
+
+  async updatePassword(
+    email: string,
+    updatePasswordDto: UpdateUserPasswordDto,
+  ): Promise<LoginResponse> {
+    const user = await this.getUser(email);
+
+    if (
+      this.usersUtils.isValidPassword(
+        user.hash,
+        user.salt,
+        updatePasswordDto.lastPwd,
+      )
+    ) {
+      if (
+        this.usersUtils.isValidPassword(
+          user.hash,
+          user.salt,
+          updatePasswordDto.password,
+        )
+      ) {
+        throw new BadRequestException(MESSAGES.SAME_PASSWORD);
+      } else {
+        const { hash } = this.usersUtils.hashPassword(
+          user.salt,
+          updatePasswordDto.password,
+        );
+
+        await this.usersRepository.update({ hash }, { where: { id: user.id } });
+
+        return {
+          success: true,
+          message: 'Success',
+        };
+      }
+    }
+
+    throw new BadRequestException(MESSAGES.INVALID_PASSWORD);
   }
 }

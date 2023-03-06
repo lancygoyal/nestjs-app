@@ -60,28 +60,30 @@ export class RefreshTokenDto {
   token?: string;
 }
 
-export class LoginResponse extends ResponseDTO {
-  accessToken?: string;
+export class UpdateUserDto {
+  @IsOptional()
+  @ApiProperty({ required: false })
+  firstName?: string;
 
-  refreshToken?: string;
+  @IsOptional()
+  @ApiProperty({ required: false })
+  lastName?: string;
 
-  user?: {
-    id: string;
+  @IsOptional()
+  @ApiProperty({ required: false })
+  phoneNumber?: string;
 
-    firstName: string;
+  @IsOptional()
+  @ApiProperty({ required: false })
+  bio?: string;
+}
 
-    lastName: string;
+export class UpdateUserPasswordDto {
+  @IsNotEmpty()
+  @ApiProperty({ required: true })
+  lastPwd?: string;
 
-    userName: string;
-
-    email: string;
-
-    phoneNumber: string;
-
-    role: string;
-
-    type: string;
-
-    bio: string;
-  };
+  @IsNotEmpty()
+  @ApiProperty({ required: true })
+  password: string;
 }

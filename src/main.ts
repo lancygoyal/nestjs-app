@@ -8,7 +8,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import fastifyHelmet from '@fastify/helmet';
 import fastifyCsrf from '@fastify/csrf-protection';
 import { AppModule } from './app.module';
-import { HttpExceptionFilter } from './middlewares/http-exception.middleware';
+import { HttpExceptionFilter } from './middlewares/http-exception.filter';
 import { getEnv } from './config/env';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 

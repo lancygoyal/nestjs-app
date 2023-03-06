@@ -21,7 +21,6 @@ export class User extends Model {
   @Column({ unique: true })
   email: string;
 
-  @Column({ unique: true })
   phoneNumber: string;
 
   @Column
