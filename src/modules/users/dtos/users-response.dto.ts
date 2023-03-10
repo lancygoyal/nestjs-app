@@ -20,8 +20,6 @@ export class LoginResponse extends ResponseDTO {
 
     role: string;
 
-    type: string;
-
     bio: string;
   };
 }

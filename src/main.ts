@@ -62,11 +62,14 @@ async function bootstrap() {
   await app.register(fastifyCsrf);
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const version = require('../package.json').version || '';
+  const appData = require('../package.json');
+  const name = appData.name || '';
+  const version = appData.version || '';
+  const description = appData.description || '';
 
   const config = new DocumentBuilder()
-    .setTitle('B2B')
-    .setDescription('The API Documentation')
+    .setTitle(name.toUpperCase())
+    .setDescription(description)
     .setVersion(version)
     .setBasePath('api')
     .addTag('Rest APIs')

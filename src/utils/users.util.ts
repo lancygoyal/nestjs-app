@@ -33,13 +33,12 @@ export class UsersUtils {
     return uuidv4();
   }
 
-  createAccessToken(id: string, email: string, role: string, type: string) {
+  createAccessToken(id: string, email: string, role: string) {
     const accessToken = jwt.sign(
       {
         id,
         email,
         role,
-        type,
       },
       getEnv('ACCESS_TOKEN_SECRET'),
       {

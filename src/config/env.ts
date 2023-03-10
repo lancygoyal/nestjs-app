@@ -10,7 +10,16 @@ export const getEnv = (key: string) => {
     DB_PORT: Number(process.env.DB_PORT || 5432),
     DB_NAME: process.env.DB_NAME,
     DB_SSL: process.env.DB_SSL === 'true',
+    DB_SCHEMA: 'public',
   };
 
   return Config[key];
+};
+
+export const isProduction = () => {
+  return getEnv('ENV') === 'production';
+};
+
+export const isLocalDev = () => {
+  return getEnv('ENV') === 'local';
 };

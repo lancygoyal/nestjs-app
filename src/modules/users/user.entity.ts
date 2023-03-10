@@ -21,6 +21,7 @@ export class User extends Model {
   @Column({ unique: true })
   email: string;
 
+  @Column
   phoneNumber: string;
 
   @Column
@@ -32,10 +33,6 @@ export class User extends Model {
   @Index('USER_ROLE')
   @Column
   role: string;
-
-  @Index('USER_TYPE')
-  @Column
-  type: string;
 
   @Index('USER_STATUS')
   @Column

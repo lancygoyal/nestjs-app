@@ -7,8 +7,9 @@ import {
   UpdateUserPasswordDto,
 } from './dtos/users-request.dto';
 import { User } from './user.entity';
-import { STATUS, USERS_REPOSITORY } from 'src/constants/users';
+import { STATUS } from 'src/constants/users';
 import MESSAGES from 'src/constants/messages';
+import { USERS_REPOSITORY } from 'src/constants/entity';
 import { UsersUtils } from 'src/utils/users.util';
 import { getEnv } from 'src/config/env';
 import { LoginResponse } from './dtos/users-response.dto';
@@ -52,7 +53,6 @@ export class UsersService {
       salt,
       hash,
       role: createUserDto.role,
-      type: createUserDto.type,
       status: STATUS.INACTIVE,
       bio: createUserDto.bio,
     };
@@ -94,7 +94,6 @@ export class UsersService {
           user.id,
           user.email,
           user.role,
-          user.type,
         ),
         refreshToken: this.usersUtils.createRefreshToken(user.id),
       };
@@ -119,7 +118,6 @@ export class UsersService {
           user.id,
           user.email,
           user.role,
-          user.type,
         ),
       };
     } catch (error) {
@@ -137,7 +135,6 @@ export class UsersService {
         'userName',
         'email',
         'role',
-        'type',
         'status',
         'bio',
         'loginAt',
@@ -182,7 +179,6 @@ export class UsersService {
         'userName',
         'email',
         'role',
-        'type',
         'status',
         'bio',
         'loginAt',

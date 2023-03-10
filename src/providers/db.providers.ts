@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
-import { getEnv } from 'src/config/env';
-import { User } from '../modules/users/user.entity';
+import { getEnv, isLocalDev } from 'src/config/env';
+import entities from '../entities';
 
 export const databaseProviders = [
   {
@@ -14,13 +14,14 @@ export const databaseProviders = [
         password: getEnv('DB_PASSWORD'),
         database: getEnv('DB_NAME'),
         dialectOptions: { ssl: getEnv('DB_SSL') },
+        schema: getEnv('DB_SCHEMA'),
         pool: { min: 1, max: 10 },
         logging: false,
       });
 
-      sequelize.addModels([User]);
+      await sequelize.addModels(entities);
 
-      await sequelize.sync({ force: false });
+      await sequelize.sync({ force: isLocalDev() });
 
       return sequelize;
     },

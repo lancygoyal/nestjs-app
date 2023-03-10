@@ -7,7 +7,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserEmail, UserId } from 'src/decorators/user.decorator';
 import { ResponseDTO } from 'src/dtos/response';
 import { AuthGuard } from 'src/middlewares/auth.guard';
@@ -22,6 +22,7 @@ import { LoginResponse } from './dtos/users-response.dto';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 
+@ApiTags('users')
 @Controller({ path: 'users', version: '1' })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
