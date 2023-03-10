@@ -14,6 +14,7 @@
     "start:prod": "node dist/main",
     "migrate:generate": "npx sequelize-cli migration:generate --name test",
     "migrate": "NODE_ENV=local npx sequelize-cli db:migrate",
+    "resource:generate": "nest g resource",
     "seed:generate": "npx sequelize-cli seed:generate --name test",
     "seed": "NODE_ENV=local npx sequelize-cli db:seed:all",
     "docker": "docker-compose up",
