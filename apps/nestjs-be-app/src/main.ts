@@ -62,7 +62,7 @@ async function bootstrap() {
   await app.register(fastifyCsrf);
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const appData = require('../package.json');
+  const appData = require('../../../package.json');
   const name = appData.name || '';
   const version = appData.version || '';
   const description = appData.description || '';

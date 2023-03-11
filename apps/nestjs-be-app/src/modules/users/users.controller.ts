@@ -8,9 +8,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { UserEmail, UserId } from 'src/decorators/user.decorator';
-import { ResponseDTO } from 'src/dtos/response';
-import { AuthGuard } from 'src/middlewares/auth.guard';
+import { UserEmail, UserId } from '../../decorators/user.decorator';
+import { ResponseDTO } from '../../dtos/response';
+import { AuthGuard } from '../../middlewares/auth.guard';
 import {
   CreateUserDto,
   LoginUserDto,

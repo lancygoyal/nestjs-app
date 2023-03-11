@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import { getEnv, isLocalDev } from 'src/config/env';
+import { getEnv, isLocalDev } from '../config/env';
 import entities from '../entities';
 
 export const databaseProviders = [
