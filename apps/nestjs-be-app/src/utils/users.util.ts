@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 import * as jwt from 'jsonwebtoken';
 import { UnauthorizedException } from '@nestjs/common/exceptions';
-import { getEnv } from 'src/config/env';
+import { getEnv } from '../config/env';
 
 export class UsersUtils {
   createSalt() {

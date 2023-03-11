@@ -1,4 +1,4 @@
-import { ResponseDTO } from 'src/dtos/response';
+import { ResponseDTO } from '../../../dtos/response';
 
 export class LoginResponse extends ResponseDTO {
   accessToken?: string;

@@ -7,11 +7,11 @@ import {
   UpdateUserPasswordDto,
 } from './dtos/users-request.dto';
 import { User } from './user.entity';
-import { STATUS } from 'src/constants/users';
-import MESSAGES from 'src/constants/messages';
-import { USERS_REPOSITORY } from 'src/constants/entity';
-import { UsersUtils } from 'src/utils/users.util';
-import { getEnv } from 'src/config/env';
+import { STATUS } from '../../constants/users';
+import MESSAGES from '../../constants/messages';
+import { USERS_REPOSITORY } from '../../constants/entity';
+import { UsersUtils } from '../../utils/users.util';
+import { getEnv } from '../../config/env';
 import { LoginResponse } from './dtos/users-response.dto';
 
 @Injectable()

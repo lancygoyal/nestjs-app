@@ -1,8 +1,41 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/nestjs-be-app/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/nestjs-be-app/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/nestjs-be-app",
+  "projects": {
+    "nestjs-be-app": {
+      "type": "application",
+      "root": "apps/nestjs-be-app",
+      "entryFile": "main",
+      "sourceRoot": "apps/nestjs-be-app/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/nestjs-be-app/tsconfig.app.json"
+      }
+    },
+    "notification-app": {
+      "type": "application",
+      "root": "apps/notification-app",
+      "entryFile": "main",
+      "sourceRoot": "apps/notification-app/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notification-app/tsconfig.app.json"
+      }
+    },
+    "chat-app": {
+      "type": "application",
+      "root": "apps/chat-app",
+      "entryFile": "main",
+      "sourceRoot": "apps/chat-app/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/chat-app/tsconfig.app.json"
+      }
+    }
   }
 }
